@@ -21,7 +21,8 @@ def animation3D(snapshots, function, lb, ub, sr=False):
         Z,
         rstride=1,
         cstride=1,
-        cmap="gist_ncar",
+        # cmap="gist_ncar",
+        color="lime",
         linewidth=0,
         antialiased=True,
     )
@@ -59,11 +60,12 @@ def animation3D(snapshots, function, lb, ub, sr=False):
         fig,
         update_graph,
         len(snapshots),
-        interval=200,
         blit=False,
+        repeat=False,
+        interval=100,
     )
 
     if sr:
-        ani.save("result.mp4")
+        ani.save(f"{function.__name__}_result.mp4")
 
     plt.show()

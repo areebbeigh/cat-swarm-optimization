@@ -55,6 +55,9 @@ class CatSwarmOptimization:
         self.current_best_agent_idx = self._get_best_agent_idx()
         self.snapshots.append(deepcopy(self.agents))
 
+    def result(self):
+        return list(np.median(self.agents, axis=0))
+
     def _run_seeking_mode(self, agent_idx: int, agent: np.ndarray):
         # Create seeking pool
         seeking_pool = np.array([agent for _ in range(self.seeking_mem_pool_size)])
@@ -72,10 +75,6 @@ class CatSwarmOptimization:
                     * np.random.random()
                     * np.random.choice([-1, 1])
                 )
-                if new_dim < self.lower_bound:
-                    new_dim = self.lower_bound
-                if new_dim > self.upper_bound:
-                    new_dim = self.upper_bound
                 cat[idx] = new_dim
 
         if self.self_position_considering:
@@ -93,7 +92,6 @@ class CatSwarmOptimization:
             for fitness_value in fitness_values:
                 probabilities.append(np.abs(fitness_value - fmax) / (fmax - fmin))
 
-        # Normalize probabilities so they sum to 1
         probabilities = np.array(probabilities) / sum(probabilities)
         idx = np.random.choice(range(len(seeking_pool)), p=probabilities)
         self.agents[agent_idx] = seeking_pool[idx]
