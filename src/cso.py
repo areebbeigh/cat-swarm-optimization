@@ -38,11 +38,11 @@ class CatSwarmOptimization:
         # Initialize cats, velocities, and seeking/tracing modes
         self.agents = np.random.uniform(lower_bound, upper_bound, (n, dimensions))
         self.velocities = np.zeros((n, dimensions))
-        modes = self._assign_modes()
 
         # Run iterations
         self.snapshots = []
         for itr in range(iterations):
+            modes = self._assign_modes()
             self.current_best_agent_idx = self._get_best_agent_idx()
             self.snapshots.append(deepcopy(self.agents))
 
